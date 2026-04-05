@@ -1,45 +1,45 @@
-import { useState, useRef, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import { ShoppingCart, Search, User, Menu, X, ChevronDown } from 'lucide-react'
-import { RootState, AppDispatch } from '../store'
-import { logout } from '../store/slices/authSlice'
+import { useState, useRef, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { ShoppingCart, Search, User, Menu, X, ChevronDown } from 'lucide-react';
+import { RootState, AppDispatch } from '../store';
+import { logout } from '../store/slices/authSlice';
 
 const SHOP_CATEGORIES = [
   { label: 'Casual',    to: '/shop?style=casual' },
   { label: 'Formal',    to: '/shop?style=formal' },
   { label: 'Party',     to: '/shop?style=party' },
   { label: 'Gym',       to: '/shop?style=gym' },
-]
+];
 
 export default function Header() {
-  const nav = useNavigate()
-  const dispatch = useDispatch<AppDispatch>()
-  const { user } = useSelector((s: RootState) => s.auth)
-  const { items } = useSelector((s: RootState) => s.cart)
-  const [menuOpen,  setMenuOpen]  = useState(false)
-  const [userOpen,  setUserOpen]  = useState(false)
-  const [shopOpen,  setShopOpen]  = useState(false)
-  const [annOpen,   setAnnOpen]   = useState(true)
-  const [q, setQ] = useState('')
+  const nav = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const { user } = useSelector((s: RootState) => s.auth);
+  const { items } = useSelector((s: RootState) => s.cart);
+  const [menuOpen,  setMenuOpen]  = useState(false);
+  const [userOpen,  setUserOpen]  = useState(false);
+  const [shopOpen,  setShopOpen]  = useState(false);
+  const [annOpen,   setAnnOpen]   = useState(true);
+  const [q, setQ] = useState('');
 
-  const uRef    = useRef<HTMLDivElement>(null)
-  const shopRef = useRef<HTMLDivElement>(null)
-  const cartCount = items.reduce((a, b) => a + b.quantity, 0)
+  const uRef    = useRef<HTMLDivElement>(null);
+  const shopRef = useRef<HTMLLIElement>(null); // ✅ Updated type to HTMLLIElement
+  const cartCount = items.reduce((a, b) => a + b.quantity, 0);
 
   useEffect(() => {
     const fn = (e: MouseEvent) => {
-      if (uRef.current    && !uRef.current.contains(e.target as Node))    setUserOpen(false)
-      if (shopRef.current && !shopRef.current.contains(e.target as Node)) setShopOpen(false)
-    }
-    document.addEventListener('mousedown', fn)
-    return () => document.removeEventListener('mousedown', fn)
-  }, [])
+      if (uRef.current    && !uRef.current.contains(e.target as Node))    setUserOpen(false);
+      if (shopRef.current && !shopRef.current.contains(e.target as Node)) setShopOpen(false);
+    };
+    document.addEventListener('mousedown', fn);
+    return () => document.removeEventListener('mousedown', fn);
+  }, []);
 
   const search = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (q.trim()) { nav(`/shop?search=${encodeURIComponent(q.trim())}`); setQ(''); setMenuOpen(false) }
-  }
+    e.preventDefault();
+    if (q.trim()) { nav(`/shop?search=${encodeURIComponent(q.trim())}`); setQ(''); setMenuOpen(false); }
+  };
 
   return (
     <div>
@@ -171,5 +171,5 @@ export default function Header() {
         </div>
       </nav>
     </div>
-  )
+  );
 }

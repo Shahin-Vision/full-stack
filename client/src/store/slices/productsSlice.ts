@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import api from '../../services/api'
-export interface Product { id:number; name:string; slug:string; price:number; original_price?:number; discount:number; image:string; rating:number; review_count:number; colors:string[]; sizes:string[]; style:string; is_new:boolean; is_sale:boolean; category_name?:string; description?:string; reviews?:any[] }
+export interface Product { id:number; name:string; slug:string; price:number; original_price?:number; discount:number; image:string; image2_url?:string|null; image3_url?:string|null; rating:number; review_count:number; colors:string[]; sizes:string[]; style:string; is_new:boolean; is_sale:boolean; category_name?:string; description?:string; reviews?:any[] }
 interface State { items:Product[]; count:number; loading:boolean; error:string|null; current:Product|null; currentLoading:boolean }
 const init:State = {items:[],count:0,loading:false,error:null,current:null,currentLoading:false}
 
