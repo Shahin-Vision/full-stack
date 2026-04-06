@@ -109,5 +109,6 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:5173',
     'https://shahin-vision.github.io',
+    'https://Shahin-Vision.github.io',
 ]
 CORS_ALLOW_CREDENTIALS = True
