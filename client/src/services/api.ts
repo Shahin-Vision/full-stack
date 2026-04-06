@@ -1,7 +1,11 @@
 /// <reference types="vite/client" />
 import axios from 'axios'
 
-const api = axios.create({ baseURL: import.meta.env.VITE_API_URL || '/api' })
+const baseURL = import.meta.env.VITE_API_URL 
+  ? import.meta.env.VITE_API_URL.replace(/\/$/, '') + '/api'
+  : '/api';
+
+const api = axios.create({ baseURL })
 
 api.interceptors.request.use(cfg => {
   const t = localStorage.getItem('access_token')
@@ -14,7 +18,7 @@ api.interceptors.response.use(r => r, async err => {
   if (err.response?.status === 401 && !orig._retry) {
     orig._retry = true
     try {
-      const { data } = await axios.post('/api/auth/token/refresh/', {
+      const { data } = await axios.post(`${baseURL}/auth/token/refresh/`, {
         refresh: localStorage.getItem('refresh_token')
       })
       localStorage.setItem('access_token', data.access)
